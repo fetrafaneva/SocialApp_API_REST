@@ -19,3 +19,16 @@ export const createPost = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// ------------------ GET ALL POSTS ------------------
+export const getPosts = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate("author", "username email") // pour voir qui a posté
+      .sort({ createdAt: -1 }); // posts récents en premier
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
