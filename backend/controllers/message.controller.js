@@ -109,3 +109,20 @@ export const markMessageAsRead = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// ------------------ COUNT UNREAD ------------------
+export const countUnreadMessages = async (req, res) => {
+  try {
+    const count = await Message.countDocuments({
+      receiver: req.user._id,
+      isRead: false,
+    });
+
+    res.status(200).json({
+      unreadCount: count,
+    });
+  } catch (error) {
+    console.error("COUNT UNREAD ERROR:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
