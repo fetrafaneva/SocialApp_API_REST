@@ -208,3 +208,35 @@ export const updateMessage = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// ------------------ GET CONVERSATIONS ------------------
+export const getConversations = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // récupérer tous les messages de l'utilisateur
+    const messages = await Message.find({
+      $or: [{ sender: userId }, { receiver: userId }],
+    })
+      .sort({ createdAt: -1 })
+      .populate("sender", "username")
+      .populate("receiver", "username");
+
+    const conversationsMap = new Map();
+
+    for (const msg of messages) {
+      // déterminer l'autre utilisateur
+      const otherUser =
+        msg.sender._id.toString() === userId.toString()
+          ? msg.receiver
+          : msg.sender;
+
+      const otherUserId = otherUser._id.toString();
+    }
+
+    res.status(200).json(Array.from(conversationsMap.values()));
+  } catch (error) {
+    console.error("GET CONVERSATIONS ERROR:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
