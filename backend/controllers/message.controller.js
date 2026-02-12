@@ -258,3 +258,35 @@ export const getConversations = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// ------------------ MARK CONVERSATION AS READ ------------------
+export const markConversationAsRead = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { userId: otherUserId } = req.params;
+
+    // validation ObjectId
+    if (!mongoose.Types.ObjectId.isValid(otherUserId)) {
+      return res.status(400).json({ message: "ID utilisateur invalide" });
+    }
+
+    const result = await Message.updateMany(
+      {
+        sender: otherUserId,
+        receiver: userId,
+        isRead: false,
+      },
+      {
+        $set: { isRead: true },
+      }
+    );
+
+    res.status(200).json({
+      message: "Conversation marquée comme lue",
+      updatedMessages: result.modifiedCount,
+    });
+  } catch (error) {
+    console.error("MARK CONVERSATION READ ERROR:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
