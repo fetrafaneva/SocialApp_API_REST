@@ -253,3 +253,32 @@ export const updateReply = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// ------------------ DELETE REPLY ------------------
+export const deleteReply = async (req, res) => {
+  try {
+    const { postId, commentId, replyId } = req.params;
+
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    const comment = post.comments.id(commentId);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
+
+    const reply = comment.replies.id(replyId);
+    if (!reply) return res.status(404).json({ message: "Reply not found" });
+
+    // sécurité
+    if (reply.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not allowed" });
+    }
+
+    reply.deleteOne();
+    await post.save();
+
+    res.status(200).json({ message: "Reply deleted" });
+  } catch (error) {
+    console.error("DELETE REPLY ERROR:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

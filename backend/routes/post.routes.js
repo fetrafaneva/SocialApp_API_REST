@@ -4,6 +4,7 @@ import {
   addComment,
   createPost,
   deletePost,
+  deleteReply,
   getPostById,
   getPosts,
   replyToComment,
@@ -24,15 +25,19 @@ router.put("/:id", authMiddleware, updatePost);
 router.get("/:id", getPostById);
 router.patch("/:id/like", authMiddleware, toggleLikePost);
 router.post("/:id/comment", authMiddleware, addComment);
-router.patch(
-  "/:postId/comment/:commentId/reply/:replyId",
-  authMiddleware,
-  updateReply
-);
 router.post(
   "/:postId/comment/:commentId/reply",
   authMiddleware,
   replyToComment
 );
-
+router.patch(
+  "/:postId/comment/:commentId/reply/:replyId",
+  authMiddleware,
+  updateReply
+);
+router.delete(
+  "/:postId/comment/:commentId/reply/:replyId",
+  authMiddleware,
+  deleteReply
+);
 export default router;
