@@ -1,6 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js"; // middleware à créer pour JWT
 import {
+  addComment,
   createPost,
   deletePost,
   getPostById,
@@ -20,5 +21,6 @@ router.delete("/:id", authMiddleware, deletePost);
 router.put("/:id", authMiddleware, updatePost);
 router.get("/:id", getPostById);
 router.patch("/:id/like", authMiddleware, toggleLikePost);
+router.post("/:id/comment", authMiddleware, addComment);
 
 export default router;
