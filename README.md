@@ -36,4 +36,72 @@ The API is frontend-agnostic and can be consumed by any client (React, Flutter, 
 - **dotenv**
 - **cors**
 
+## Project Structure
+
+```text
+backend/
+├── config/
+│   └── db.js                         # MongoDB connection
+│
+├── controllers/
+│   ├── auth.controller.js            # Authentication logic
+│   ├── user.controller.js            # User-related actions
+│   ├── post.controller.js            # Posts logic
+│   ├── notification.controller.js    # Notification logic
+│   ├── message.controller.js         # Messaging logic
+│
+├── middleware/
+│   ├── auth.middleware.js            # JWT authentication
+│   ├── upload.middleware.js          # Config upload file
+│
+├── models/
+│   ├── user.model.js                 # user shema
+│   ├── notification.model.js         # notification shema
+│   ├── message.model.js              # message shema
+│
+├── routes/
+│   ├── auth.routes.js
+│   ├── notification.routes.js
+│   ├── post.routes.js
+│
+├── utils/
+│   └──createNotification.js
+│
+├── server.js                         # App entry point
+├── package.json
+└── .env
+```
+
+
+## Installation
+
+### Prerequisites
+- Node.js (v18 or higher)
+- MongoDB (local instance or MongoDB Atlas)
+
+### Steps
+1. Clone the repository:
+    ```text
+    git clone https://github.com/fetrafanevacontent-api-backend.git
+    cd backend
+    ```
+2. Install dependencies:
+    ```text
+    cd backend
+    npm install
+    ```
+3. Configure environment variables:
+- Create `.env` in `/server`:
+    ```text
+    PORT=5000
+
+    MONGO_URI=mongodb://localhost:27017/mern-auth
+
+    JWT_SECRET=your_secure_jwt_secret
+    ```
+4. Start the application:
+    ```text
+    npm run server (with nodemon)
+    ```
+
 
