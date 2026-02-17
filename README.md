@@ -142,5 +142,10 @@ backend/
 | PUT    | `/api/message/:id`                                        | Update message                             | yes                     |
 | DELETE | `/api/message/:id`                                        | Delete message                             | yes                     |
 
+### Notification
+| Method | Endpoint                                                  | Description                                | Authentication Required |
+|--------|-----------------------------------------------------------|--------------------------------------------|-------------------------|
+| GET    | `/api/notification/`                                      | Get notification                           | yes                     |
+| PATCH  | `/api/notification/:id/read`                              | Mark notiication as read                   | yes                     |
 
 
